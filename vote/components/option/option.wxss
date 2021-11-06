@@ -1,0 +1,20 @@
+/* components/option/option.wxss */
+@import '../../styles/iconfont.wxss';
+.icon-close{
+  color: red;
+  width: 70rpx;
+  height: 70rpx;
+  text-align:center;
+  margin-right: 20rpx;
+}
+.option{
+  display: flex;
+  align-items: center;
+  background-color:white;
+
+}
+.interactableArea{
+  padding: 5px;
+  background-color:white;
+  border-bottom: solid 1rpx rgba(128, 128, 128, 0.363);
+}

@@ -1,0 +1,48 @@
+{
+  "setting": {},
+  "condition": {
+    "plugin": {
+      "list": []
+    },
+    "game": {
+      "list": []
+    },
+    "gamePlugin": {
+      "list": []
+    },
+    "miniprogram": {
+      "list": [
+        {
+          "name": "pages/index/index",
+          "pathName": "pages/index/index",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "扫码投票",
+          "pathName": "pages/checkVote/checkVote",
+          "query": "voteId=10",
+          "scene": 1012
+        },
+        {
+          "name": "添加投票",
+          "pathName": "pages/createVote/createVote",
+          "query": "",
+          "scene": null
+        },
+        {
+          "name": "查看结果",
+          "pathName": "pages/result/result",
+          "query": "voteId=2",
+          "scene": 1000
+        },
+        {
+          "name": "pages/voteList/voteList",
+          "pathName": "pages/voteList/voteList",
+          "query": "",
+          "scene": null
+        }
+      ]
+    }
+  }
+}

@@ -1,0 +1,42 @@
+/* pages/createVote/createVote.wxss */
+page{
+  height: 100%;
+}
+.con{
+  background-color:white;
+  height: 100%;
+}
+.head{
+  padding: 20rpx;
+  background-color: white;
+}
+.title{
+  font-size: large;
+}
+.picker{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80rpx;
+}
+.picker picker{
+  color: rgba(129, 127, 127, 0.541);
+  display:inline-block;
+  padding-left: 10rpx;
+}
+.switch{
+  display: flex;
+  justify-content: space-between;
+  align-items:center;
+}
+.constructStart{
+  color: rgb(62, 122, 199);
+}
+.startBox{
+  background-color: white;
+  padding: 20rpx;
+
+}
+swiper{
+  height: 100%;
+}

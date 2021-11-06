@@ -1,0 +1,83 @@
+/* pages/checkVote/checkVote.wxss */
+page{
+  background-color: rgba(192, 192, 192, 0.664);
+}
+.head{
+  background-color: white;
+  border-radius: 15rpx;
+  padding:0 20rpx 20rpx 20rpx;
+  margin: 10rpx 10rpx 20rpx 10rpx;
+}
+.voteTitle{
+  color: rgb(92, 91, 91);
+  font-weight: 700;
+  font-size:x-large;
+  font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
+}
+.dueDate{
+  font-size: smaller;
+  color: rgb(172, 169, 169);
+}
+.boxContainer{
+  margin: 10rpx;
+}
+.checkBox{
+ 
+  margin: 10rpx 0 20rpx 0;
+
+}
+.questionTitle{
+  color: rgb(126, 126, 126);
+  padding:10rpx;
+  font-size:medium;
+  font-weight: 700;
+}
+.selectionNum{
+  padding-left:30rpx;
+  padding-bottom: 10rpx;
+  font-size: x-small;
+  font-weight: 700;
+  color: rgba(75, 75, 75, 0.637);
+}
+.checkBoxGroup{
+  border-radius: 15rpx;
+  background-color: white;
+  padding:10rpx 20rpx 20rpx 20rpx;
+}
+checkbox .wx-checkbox-input {
+  display: none;
+  border: none;
+  }
+
+checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
+  width:0rpx;/* 选中后对勾大小，不要超过背景的尺寸 */
+  height:0rpx;/* 选中后对勾大小，不要超过背景的尺寸 */
+  text-align:center;
+  font-size:0;/* 对勾大小 0rpx */
+  color:#fff;/* 对勾颜色 白色 */
+  background-color:#fff;
+}
+
+
+.option{
+  padding:10rpx 10rpx 10rpx 10rpx ;
+  margin: 20rpx 10rpx 20rpx 10rpx;
+  background-color: rgba(192, 192, 192, 0.548);
+  font-weight: 500;
+  color: rgba(136, 133, 133, 0.897) ;
+  border-left: rgba(110, 110, 110, 0.932) 10rpx solid;
+}
+.check{
+
+  color: black;
+  font-weight: 600;
+  border-left: rgb(22, 144, 243) 10rpx solid;
+  margin-left: 0rpx;
+}
+.checkBox_inner{
+  width: 100%;
+  padding:5rpx;
+}
+.submit{
+  margin-bottom: 500rpx;
+}

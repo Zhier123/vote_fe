@@ -1,0 +1,48 @@
+/**index.wxss**/
+.userinfo {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: left;
+  color: #aaa;
+  padding: 10rpx;
+  padding-left: 30rpx;
+  border-bottom: 1rpx rgba(128, 128, 128, 0.288) solid;
+  border-top: 1rpx rgba(128, 128, 128, 0.322) solid;
+}
+
+.userinfo-avatar {
+  overflow: hidden;
+  width: 78rpx;
+  height: 78rpx;
+  margin: 20rpx;
+  border-radius: 50%;
+}
+
+.button{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+  width:720rpx;
+  height: 400rpx;
+  border-radius:  5rpx;
+  margin-bottom:40rpx ;
+  background-color: rgba(155, 228, 233, 0.116);
+}
+.icon-baobiaotongji{
+  font-size: 250rpx;
+  color:rgba(23, 162, 204, 0.555);
+}
+.icon-mobanpeizhi{
+  font-size:250rpx;
+  color:rgba(11, 89, 192, 0.555);
+}button{
+  margin: 5rpx;
+  background-color: rgba(86, 94, 105, 0.541);
+}
+text{
+  color: rgba(90, 88, 88, 0.438);
+  font-size: smaller;
+}

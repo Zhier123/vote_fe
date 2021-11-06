@@ -1,0 +1,44 @@
+<!--pages/voteList/voteList.wxml-->
+<view class="container">
+  <view class="navigator">
+  <view class="selectionCard"
+  bindtap="currTo0">
+    <view
+    class="{{current==0?'chosen text':'text'}}">
+      我创建的
+    </view>
+  </view>
+  <view class="selectionCard"
+  bindtap="currTo1"
+  >
+    <view class="text"
+    class="{{current == 1?'chosen text':'text'}}">
+      我参与的
+    </view>
+  </view>
+  </view>
+  <swiper current="{{current}}" style="height:{{swiperHeight}}rpx">
+    <swiper-item>
+      <view class="listBox">
+        <view class="listItem"
+          wx:key="index"
+          wx:for="{{userPublished.data}}"
+          data-id="{{item.id}}" 
+          bindtap="bindtapItemHandler"
+          >
+          <view class="Title">{{item.name}}</view>
+          <view class="voteId">投票id: {{item.id}}</view>
+        </view>
+      </view>
+    </swiper-item>
+    <swiper-item>
+      <view class="listBox">
+        <view class="listItem" wx:key="index" wx:for="{{userVoted.data}}" data-id="{{item.id}}" 
+          bindtap="bindtapItemHandler">
+          <view class="Title">{{item.name}}</view>
+          <view class="voteId">投票id: {{item.id}}</view>
+        </view>
+      </view>
+    </swiper-item>
+  </swiper>
+</view>

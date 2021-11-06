@@ -1,0 +1,36 @@
+<view class="container">
+  <view wx:if="{{canShow == false}}">
+    loading...
+
+  </view>
+  <view style="width:100%" wx:else>
+      <view class="head">
+        <view class="voteTitle">{{name}}</view>
+        <view class="dueDate">截止时间:{{dueDate}}</view>
+      </view>
+      <view class="boxContainer">
+        <view wx:for="{{checkBox}}"
+         class="checkBox"
+         wx:key="index">
+          <view class="questionTitle">{{index+1}}:{{item.title}}</view>
+          <view class="selectionNum">可选数量:{{item.selectionNum}}</view>
+          <checkbox-group 
+          class="checkBoxGroup"
+          data-index="{{index}}" bindchange="checkBoxChange">
+          <view wx:for="{{item.options}}"
+          class=" {{optionItem.checked ?'check option' : 'option'}}"
+          wx:key="index" 
+          wx:for-item="optionItem" wx:for-index="oid">
+            <checkbox  
+            color="blue"
+            class="checkBox_inner"
+            value="{{oid}}" checked="{{optionItem.checked}}">{{optionItem.name}}
+            </checkbox>
+          </view>
+        </checkbox-group>
+        </view>
+        
+        <button class="submit" bindtap="submit">提交</button>
+      </view>
+  </view>
+</view>

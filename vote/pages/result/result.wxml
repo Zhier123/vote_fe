@@ -1,0 +1,34 @@
+<view class="container">
+  <view class="head">
+    <view class="voteTitle">{{name}}</view>
+    <view class="dueDate">截止时间: {{dueDate}}</view>
+  </view>
+ <view wx:if="{{resultVisibility == private}}">
+      该问题被问题建立者设置为结果不可见
+ </view>
+ <view wx:else style="width:100%">
+  <view class="questionRow">
+    <view class="questionBox" 
+    wx:for="{{questions}}" 
+    wx:key="index" 
+    wx:for-item="question"
+    wx:for-index="qid">
+    <view class="questionTitle">{{qid+1}}:{{question.title}}</view>
+    <view class="optionRow">
+      <view class="option" wx:for="{{question.options}}" wx:key="index" wx:for-item="option" bindtap="bindOptionTapHandler"
+      data-qid="{{qid}}"
+      data-option="{{index}}">
+        <view class="layer" style="--width--:{{120 * option.count / question.ticketNum}}%"></view>
+        <view class="innerText">
+          <view>
+          <view class="text">{{option.name}}</view>
+          <view>{{option.count}}票   </view>
+          </view>
+          <view class="percentage" >{{100 * option.count / question.ticketNum}}%</view>
+        </view>
+      </view>
+    </view>
+    </view>
+  </view>
+ </view>
+</view>

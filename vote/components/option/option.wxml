@@ -1,0 +1,5 @@
+<!--components/option/option.wxml-->
+<view class="option interactableArea">
+<icon bindtap="deleteOption" class="iconfont icon-close"></icon>
+<input bindinput="bindInputHandler" placeholder="请输入该选项内容"/>
+</view>

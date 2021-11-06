@@ -1,0 +1,58 @@
+/* pages/result/result.wxss */
+view{
+  box-sizing: border-box;
+}
+.container{
+  background-color: rgb(255, 255, 255);
+  padding-top:0;
+}
+.head{
+  width: 100%;
+  border-left:rgb(77, 208, 225) 15rpx solid;
+  box-sizing: border-box;
+  padding-left: 15rpx;
+  background-color: white;
+  margin:30rpx 35rpx 30rpx 35rpx;
+}
+.voteTitle{
+  font-size: medium;
+  font-weight: 700;
+}
+.dueDate{
+  font-size: smaller;
+  color:rgb(88, 88, 88);
+}
+.questionRow{
+  box-sizing: border-box;
+  width: 100%;
+  padding: 30rpx 15rpx 30rpx 15rpx;
+  background-color:white;
+}
+.questionTitle{
+  font-size: large;
+  font-weight: bold;
+  padding:15rpx 0 15rpx 0;
+}
+.option{
+  padding:15rpx;
+  position: relative;
+}
+.innerText{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.layer{
+  margin-left:-30rpx ;
+  position: absolute;
+  top:0;
+  left:0;
+  height: 0;
+  background-color: rgba(56, 56, 56, 0.199);
+    height: 100%;
+    width:var(--width--);
+}
+.percentage{
+  color: rgb(
+    189, 189, 189);
+}

@@ -1,0 +1,45 @@
+@import '../../styles/iconfont.wxss';
+.questionBox{
+  border: cadetblue 1rpx solid;
+}
+page{
+  height: 100%;
+}
+.con{
+  height: 100%;
+  padding:20rpx;
+}
+.icon-add-circle{
+  color: rgb(62, 122, 199) ;
+  font-size: large;
+}
+.interactableArea{
+  padding: 20rpx;
+  background-color:white;
+  border-bottom: solid 1rpx rgba(128, 128, 128, 0.363);
+}
+.slider{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-top: 0;
+  padding-bottom: 0;
+  border-bottom: rgba(128, 128, 128, 0.363) 2rpx solid;
+}
+slider{
+  width: 60%;
+}
+.options{
+  margin-top: 20rpx;
+}
+.tools{
+  display: flex;
+  align-self:center;
+  height: 80rpx;
+  padding-left: 20rpx;
+  padding-right: 20rpx;
+  justify-content: space-between;
+}
+button{
+  font-size: small;
+}

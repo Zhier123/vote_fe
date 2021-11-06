@@ -1,0 +1,51 @@
+<view class="con">
+    <swiper current="{{swiperPage}}">
+    <swiper-item catchtouchmove="stopTouchMove">
+    <view class="head">
+    <!--投票标题  截止日期 还有一些其他东-->
+    <input class="title interactableArea" placeholder="在此处输入标题" bindchange="bindTitleChange"/>
+    <view class="picker interactableArea">
+      <text>截止日期</text>
+      <view>
+      <picker mode="date" 
+      value="{{ddlday}}" 
+      start="{{ddlday}}" 
+      bindchange="bindPickerChange_day"> {{ddlday}}</picker>
+      <picker 
+      mode="time" 
+      value="{{ddltime}}"
+      bindchange="bindPickerChange_time">{{ddltime}}</picker>
+      </view>
+    </view>
+    <view wx:if="{{resultVisibility == 'afterVote'}}" class="switch interactableArea">
+      <text>匿名投票</text>
+      <switch color="rgb(62, 122, 199)" bindchange="anonymousHandler"></switch>
+    </view>
+    <view class="switch interactableArea">
+      <text>结果公开</text>
+      <switch color="rgb(62, 122, 199)"  bindchange="resultHandler_outer" ></switch>
+    </view>
+
+   <view class="startBox">
+      <button bindtap="createVoteHandler" class="constructStart" >构造开始</button>
+    </view>
+    </view>
+  </swiper-item>
+
+  <!-- 这下面是用户创建的一系列问题 一个问题是一个swiper -->
+  <swiper-item catchtouchmove="stopTouchMove"  wx:for="{{questionList}}"
+      wx:key="index" 
+      wx:for-index="idx"
+     >    
+   <view>
+      <question 
+      bind:getQuestionInfo="questionInfoHandler" 
+      bind:nextQuestion="nextQuestionHandler"
+      qid="{{idx}}"
+      bind:submit="submitHandler"
+      ></question>
+    </view> 
+  </swiper-item>
+  </swiper>
+</view>
+ 

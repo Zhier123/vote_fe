@@ -1,0 +1,28 @@
+<!--components/question/question.wxml-->
+<view class="con">
+  <input
+   bindinput="inputTitleHandler"
+   class="interactableArea" 
+   placeholder="请输入问题" />
+  <view class="slider interactableArea">
+    <text>选择上限:{{selectableNum}}</text>
+    <slider block-color="rgb(62, 122, 199)" block-size="12" activeColor="rgb(62, 122, 199)" min="1" max="{{optionList.length}}" bindchanging="bindSelectNumChange"></slider>
+  </view>
+  <view class="options">
+      <option 
+      bind:delOption="deleteOption"
+      bind:collectInfo="collectInfoHandler"
+      wx:for="{{optionList}}"  
+      wx:key="index"
+      data-index="{{index}}"
+      wx:for-index="idx"
+      vid="{{idx}}"
+      innerText="{{item.innerText}}">
+      </option>
+      <view class="tools">
+        <icon bindtap="bindAddOption" wx:if="{{optionList.length<=8}}" class="iconfont icon-add-circle"></icon>
+        <button class="Btn next" bindtap="nextQuestion">下一个问题</button>
+        <button bindtap="submitHandler" class="done Btn">提交</button>
+      </view>
+  </view>
+</view>
