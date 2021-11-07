@@ -5,7 +5,8 @@ Component({
    * 组件的属性列表
    */
   properties: {
-   qid:Number ||String
+   qid:Number ||String,
+   questionNum:Number
   },
 
   /**
@@ -75,9 +76,11 @@ Component({
       this.setData({
         optionList:list
       })
+      this.Tofather()
       console.log(this.data.optionList)
     },
     deleteOption:function(ev){
+      console.log("deleteid",ev.detail)
       var vid = ev.detail;
 
       //深拷贝 改变 再setData
@@ -123,6 +126,7 @@ Component({
       return isEmpty;
     },
     nextQuestion:function(){
+      
       //要校验当前数据
       var isEmpty = this.ifEmpty();
       if(isEmpty){
@@ -130,7 +134,10 @@ Component({
         return;
       }
       //向父组件抛出请求到下一个问题的请求
-      this.triggerEvent('nextQuestion')
+      this.triggerEvent('nextQuestion',this.data.qid)
+    },
+    preQuestion:function(){
+      this.triggerEvent('preQuestion',this.data.qid)
     },
     submitHandler:function(){
       //先非空校验当前页面

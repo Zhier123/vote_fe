@@ -3,8 +3,8 @@
     <view class="voteTitle">{{name}}</view>
     <view class="dueDate">截止时间: {{dueDate}}</view>
   </view>
- <view wx:if="{{resultVisibility == private}}">
-      该问题被问题建立者设置为结果不可见
+ <view wx:if="{{resultVisibility == 'private' && isCreator == false}}">
+      <view class="noData">该问题被问题建立者设置为结果不可见</view>
  </view>
  <view wx:else style="width:100%">
   <view class="questionRow">
@@ -18,13 +18,13 @@
       <view class="option" wx:for="{{question.options}}" wx:key="index" wx:for-item="option" bindtap="bindOptionTapHandler"
       data-qid="{{qid}}"
       data-option="{{index}}">
-        <view class="layer" style="--width--:{{120 * option.count / question.ticketNum}}%"></view>
+        <view class="layer" style="--width--:{{120 * (option.count||0)/ question.ticketNum}}%"></view>
         <view class="innerText">
           <view>
           <view class="text">{{option.name}}</view>
-          <view>{{option.count}}票   </view>
+          <view>{{option.count||0}}票   </view>
           </view>
-          <view class="percentage" >{{100 * option.count / question.ticketNum}}%</view>
+          <view class="percentage" >{{100 * (option.count||0) / (question.ticketNum||1)}}%</view>
         </view>
       </view>
     </view>

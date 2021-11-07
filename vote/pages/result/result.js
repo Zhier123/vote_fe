@@ -1,4 +1,5 @@
 // pages/result/result.js
+const app = getApp()
 const{formatTime_date,formatTime_time} = require("../../utils/util")
 Page({
 
@@ -36,28 +37,31 @@ Page({
       voteId:options.voteId
     })
     wx.request({
-      url: 'http://localhost:3000/vote/'+options.voteId,
+      url: app.globalData.api+'vote/'+options.voteId,
       method:'GET',
       header:{
         'cookie':wx.getStorageSync('sessionid')
       },
       success(res){
-        if(res.data.data.voted == false){
-          console.log("还未投票 不可查看结果");
+        var now =new Date();
+          var ddl =new Date(res.data.data.dueDate);
+          var isCreator = (app.globalData.userId == res.data.data.creatorUUID)
+        if(res.data.data.voted == false && (res.data.data.creatorUUID != app.globalData.userId &&(now<ddl))){
+          console.log("还未投票 还未截至 不是投票创造者 不可查看结果");
           wx.navigateTo({
             url: '../checkVote/checkVote?voteId='+that.data.voteId,
           })
         }
         console.log(res);
         if(res.data.success == true){
-          var now =new Date();
-          var ddl =new Date(res.data.data.dueDate);
+          console.log(isCreator);
           var overTime =false;
           if(now>ddl){
             overTime =true// 判定投票是否过期
           }
           that.setData(res.data.data)
           that.setData({
+            isCreator:isCreator,
             dueDate:formatTime_date(ddl)+" "+formatTime_time(ddl),
           });
           //生成一个计算每一个问题一共多少票的计算属性
@@ -65,7 +69,7 @@ Page({
           res.data.data.questions.map(function(item,index){
             let sum =0;
             item.options.map(function(op){
-              sum += op.count;
+              sum += (op.count||0);
             })
             let tochange = "questions["+index+"].ticketNum"
             that.setData({

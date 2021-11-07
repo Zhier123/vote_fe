@@ -39,6 +39,7 @@ view{
 }
 .innerText{
   display: flex;
+  word-break: break-all;
   justify-content: space-between;
   align-items: center;
 }
@@ -53,6 +54,16 @@ view{
     width:var(--width--);
 }
 .percentage{
+
   color: rgb(
     189, 189, 189);
+}
+.noData{
+  color: grey;
+  font-size: medium;
+  height: 720rpx;
+  line-height: 720rpx;
+}
+.text{
+  max-width: 58 0rpx;
 }

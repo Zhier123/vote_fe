@@ -17,21 +17,32 @@
     </view>
   </view>
   </view>
-  <swiper current="{{current}}" style="height:{{swiperHeight}}rpx">
+  <view class="noData" wx:if="{{swiperHeight==0 && current==0}}">您还没有创建任何投票</view>
+  <view class="noData" wx:if="{{swiperHeight==0 && current==1}}">您还没有参与任何投票</view>
+  <swiper   
+  bindchange="swiperChangeHandler"
+  current="{{current}}" 
+  style="height:{{swiperHeight}}rpx">
     <swiper-item>
+   
       <view class="listBox">
         <view class="listItem"
           wx:key="index"
           wx:for="{{userPublished.data}}"
           data-id="{{item.id}}" 
+          wx:for-index="vid"
           bindtap="bindtapItemHandler"
           >
-          <view class="Title">{{item.name}}</view>
-          <view class="voteId">投票id: {{item.id}}</view>
+          <view>
+            <view class="Title">{{item.name}}</view>
+            <view class="voteId">投票id: {{item.id}}</view>
+        </view>
+        <view class="iconfont .icon-ashbin"  catchtap="deleteHandler" data-vid="{{vid}}" data-id="{{item.id}}"></view>
         </view>
       </view>
     </swiper-item>
     <swiper-item>
+
       <view class="listBox">
         <view class="listItem" wx:key="index" wx:for="{{userVoted.data}}" data-id="{{item.id}}" 
           bindtap="bindtapItemHandler">

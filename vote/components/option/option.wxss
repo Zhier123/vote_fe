@@ -8,10 +8,10 @@
   margin-right: 20rpx;
 }
 .option{
+  height: 70rpx;
   display: flex;
   align-items: center;
   background-color:white;
-
 }
 .interactableArea{
   padding: 5px;

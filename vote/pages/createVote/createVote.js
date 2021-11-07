@@ -1,5 +1,5 @@
 const { formatTime_date, formatTime_time } = require("../../utils/util");
-
+const app = getApp();
 // pages/createVote/createVote.js
 Page({
 
@@ -7,17 +7,41 @@ Page({
    * 页面的初始数据
    */
   data: {
+    imgUrl:'',
+    modalHidden:true,
     voteTitle:'',
-    votersVisibility:'public',
-    resultVisibility:'private',
+    ifTimeSet:false,
+    votersVisibility:'private',
+    resultVisibility:'afterVote',
     ddlday:formatTime_date(new Date()),
     ddltime:formatTime_time(new Date()),
     dueDate:(new Date()).toJSON(),
     swiperPage:0,
+    swiperHeight:1220,
     questionList:[
       {
       },
     ]
+  },
+  modalCancel:function(){
+    this.setData({
+      modalHidden:true
+    })
+    if(this.data.voteId){
+      wx.navigateTo({
+        url: '../result/result?voteId='+this.data.voteId,
+      })
+    }
+  },
+  modalConfirm(){
+    this.setData({
+      modalHidden:true
+    })
+    if(this.data.voteId){
+      wx.navigateTo({
+        url: '../result/result?voteId='+this.data.voteId,
+      })
+    }
   },
   dueDateHandler:function(){//微信小程序的时间和日期是分离的 我得自己写个用来生成日期的son
     var ddl = new Date(this.data.ddlday+"T"+this.data.ddltime+":00");
@@ -36,13 +60,15 @@ Page({
     bindPickerChange_day: function(e) {
       console.log('picker发送选择改变，携带值为', e.detail.value)
       this.setData({
-        ddlday: e.detail.value
+        ddlday: e.detail.value,
+        ifTimeSet:true,
       })
       this.dueDateHandler()
   },
     bindPickerChange_time:function(e){
       this.setData({
-        ddltime:e.detail.value
+        ddltime:e.detail.value,
+        ifTimeSet:true,
       })
       console.log(e.detail.value)
       this.dueDateHandler();
@@ -50,7 +76,7 @@ Page({
 
     anonymousHandler:function(ev){
         this.setData({
-          votersVisibility:ev.detail.value?'private':'public'
+          votersVisibility:ev.detail.value?'public':'private'
         })
          console.log(this.data.votersVisibility);
     },
@@ -65,6 +91,7 @@ Page({
 
   createVoteHandler:function(){
     //非空校验
+    
     if(this.data.voteTitle==''){
       wx.showToast({
         title: '投票标题不为空',
@@ -72,8 +99,27 @@ Page({
       })
       return;
     }
+    var now = new Date();
+    var ddl = new Date(this.data.ddlday+"T"+this.data.ddltime+":00");
+    if(this.data.ifTimeSet==false){
+      wx.showToast({
+        title: '截止日期未设定',
+        icon:'error'
+      })
+      return ;
+    }else if(now>ddl){
+      wx.showToast({
+        title: '截止日期不合理',
+        icon:'error'
+      })
+      return ;
+    }
+   
     this.setData({
       swiperPage:1
+    })
+    wx.setNavigationBarTitle({
+      title: this.data.swiperPage+'/'+this.data.questionList.length,
     })
   },
   stopTouchMove:function(){
@@ -81,9 +127,11 @@ Page({
     return false
   },
   questionInfoHandler:function(ev){
+   
     console.log(ev.detail)
     var tochange = "questionList["+ev.detail.index+"]"
     this.setData({
+      swiperHeight:1220+ev.detail.options.length*70,
       [tochange]:{
         title:ev.detail.title,
         selectionNum:ev.detail.selectionNum,
@@ -92,15 +140,46 @@ Page({
     })
     console.log(this.data.questionList)
   },
-  nextQuestionHandler:function(){
-    var list = this.data.questionList;
-    list.push({})
-    this.setData({
-      questionList:list
-    })
-    this.setData({
-      swiperPage:this.data.swiperPage+=1
-    })
+  preQuestionHandler:function(ev){
+    console.log(ev);
+    if(ev.detail==0){
+      return;
+    }else{
+      this.setData({
+        swiperPage: this.data.swiperPage-1,
+        swiperHeight:1220+this.data.questionList[ev.detail-1].options.length*70,
+      })
+      wx.setNavigationBarTitle({
+        title: this.data.swiperPage+'/'+this.data.questionList.length,
+      })
+    }
+  },
+  nextQuestionHandler:function(ev){
+    if(this.data.swiperPage==this.data.questionList.length){
+      this.setData({
+        swiperHeight:1220
+      })
+      var list = this.data.questionList;
+      list.push({})
+      this.setData({
+        questionList:list
+      })
+      this.setData({
+        swiperPage:this.data.swiperPage+1
+      })
+      wx.setNavigationBarTitle({
+        title: this.data.swiperPage+'/'+this.data.questionList.length,
+      })
+    }else{
+      this.setData({
+        swiperPage: this.data.swiperPage+1,
+        swiperHeight:1220+this.data.questionList[ev.detail].options.length*70,
+      })
+      wx.setNavigationBarTitle({
+        title: this.data.swiperPage+'/'+this.data.questionList.length,
+      })
+    }
+    
     console.log(this.data.questionList)
   },
   submitHandler:function(){
@@ -123,18 +202,39 @@ Page({
           console.log("parma",parma);
           //开始提交  //利用后端接口提交
           wx.request({
-            url: 'http://localhost:3000/vote',
+            url: app.globalData.api+'vote',
             method:'POST',
             data:parma,
             header:{
               'cookie':wx.getStorageSync('sessionid')
             },
             success(res){
-              wx.showToast({
-                title: '提交成功!',
-                icon:'success'
+              console.log(res);
+              that.setData({
+                voteId:res.data.voteId
               })
+              wx.showLoading({
+                title: '生成二维码ing..',
+              })
+              var voteId = res.data.voteId;
               //生成二维码 并且携带voteID
+              var api = app.globalData.api
+              wx.cloud.callFunction({
+                name:'getQRCODE',
+                data:{
+                  path:api+'pages/checkVote/checkVote?voteId='+voteId
+                },success(res){
+                  console.log(res);//打印云函数结果
+                  let bufferImg = "data:image/png;base64," + wx.arrayBufferToBase64(res.result.buffer);
+                  that.setData({
+                      imgUrl: bufferImg,
+                      modalHidden:false,
+                  });
+                  wx.hideLoading()
+                },fail(res){
+                  console.log("调用云函数失败",res)
+                }
+              })
             },
             fail(res){
               wx.showToast({
@@ -156,7 +256,7 @@ Page({
    */
 
   onLoad: function (options) {
-
+    wx.cloud.init();
   },
 
   /**

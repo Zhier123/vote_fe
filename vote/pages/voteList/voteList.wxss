@@ -3,10 +3,13 @@ view{
   box-sizing: border-box;
 }
 .navigator{
+  padding-top: 20rpx;
   height: 100rpx;
   width: 100%;
   display: flex;
   justify-content: space-around;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 600;
 }
 .selectionCard{
   width: 50%;
@@ -19,19 +22,21 @@ view{
 }
 .chosen{
   border-bottom: 15rpx aqua solid;
+  box-shadow: 0 5rpx 0rpx 0rpx rgba(121, 172, 172, 0.651);
 }
 swiper{
   width: 100%;
   height: var(swiperHeight);
 }
-swiper-item{  
 
-}
 .listItem{
   height: 130rpx;
   margin: 0 30rpx 0 30rpx;
   padding: 15rpx 0rpx 0 0rpx;
   border-bottom:solid 1rpx rgba(128, 128, 128, 0.582) ;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 .Title{
   font-size: large;
@@ -41,5 +46,21 @@ swiper-item{
   font-size: small;
   color: rgba(156, 154, 154, 0.603);
 }
-
-
+.noData{
+  color: grey;
+  font-size: medium;
+  height: 720rpx;
+  line-height: 720rpx;
+}
+.icon-ashbin{
+  color:rgb(97, 87, 87);
+  font-size: large;
+  height: 100rpx;
+  width: 80rpx;
+  border-radius: 20rpx;
+  background-color: rgb(218, 218, 218);
+  text-align: center;
+  box-shadow: grey 1rpx 0 0 0;
+  line-height: 100rpx;
+  z-index: 100;
+}

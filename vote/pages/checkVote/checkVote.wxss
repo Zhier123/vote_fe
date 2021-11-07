@@ -9,7 +9,7 @@ page{
   margin: 10rpx 10rpx 20rpx 10rpx;
 }
 .voteTitle{
-  color: rgb(92, 91, 91);
+  color: rgb(66, 66, 66);
   font-weight: 700;
   font-size:x-large;
   font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif
@@ -27,7 +27,7 @@ page{
 
 }
 .questionTitle{
-  color: rgb(126, 126, 126);
+  color: rgb(75, 74, 74);
   padding:10rpx;
   font-size:medium;
   font-weight: 700;
@@ -65,13 +65,13 @@ checkbox .wx-checkbox-input.wx-checkbox-input-checked::before {
   background-color: rgba(192, 192, 192, 0.548);
   font-weight: 500;
   color: rgba(136, 133, 133, 0.897) ;
-  border-left: rgba(110, 110, 110, 0.932) 10rpx solid;
+  border-left: rgba(67, 197, 165, 0.575) 10rpx solid;
 }
 .check{
 
   color: black;
   font-weight: 600;
-  border-left: rgb(22, 144, 243) 10rpx solid;
+  border-left: rgb(22, 210, 243) 10rpx solid;
   margin-left: 0rpx;
 }
 .checkBox_inner{

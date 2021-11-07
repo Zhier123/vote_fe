@@ -85,7 +85,7 @@ Page({
             })
             console.log(selected)
             wx.request({
-              url: "http://localhost:3000/vote",
+              url: app.globalData.api+"vote",
               method:'PUT',
               header:{
                 'cookie':wx.getStorageSync('sessionid')
@@ -138,7 +138,7 @@ Page({
        voteId:voteId
      })
      wx.request({
-       url: 'http://localhost:3000/vote/'+voteId,
+       url: app.globalData.api+'vote/'+voteId,
        header:{
         'cookie':wx.getStorageSync('sessionid')
       },

@@ -1,4 +1,11 @@
 /* pages/createVote/createVote.wxss */
+view{
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  font-weight: 600;
+}
+button{
+  font-family:Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+}
 page{
   height: 100%;
 }
@@ -38,5 +45,10 @@ page{
 
 }
 swiper{
-  height: 100%;
+  height: var(swiperHeight);
+}
+
+.QRCODE{
+  height: 540rpx;
+  width: 540rpx;
 }

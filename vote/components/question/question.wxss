@@ -11,7 +11,10 @@ page{
 }
 .icon-add-circle{
   color: rgb(62, 122, 199) ;
+  width: 100rpx;
+  text-align: center;
   font-size: large;
+  padding-right: 10rpx;
 }
 .interactableArea{
   padding: 20rpx;
@@ -36,10 +39,20 @@ slider{
   display: flex;
   align-self:center;
   height: 80rpx;
+  width: 100%;
   padding-left: 20rpx;
   padding-right: 20rpx;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 button{
+  height: 80rpx;
+  margin: 0 20rpx;
+  line-height: 80rpx;
+  font-size: small;
+
+  padding: 0rpx;
+  background-color: transparent;
+}
+.limitation{
   font-size: small;
 }

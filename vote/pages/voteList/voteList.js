@@ -1,4 +1,7 @@
+const { deepClone } = require("../../utils/util");
+
 // pages/voteList/voteList.js
+const app = getApp();
 Page({
 
   /**
@@ -19,12 +22,12 @@ Page({
       {id:1,name:'投票名称'},
     ],
     page:1,
-    limit:9,
+    limit:10000,
   },
     userVoted:{
       data:[],
       page:1,
-      limit:9
+      limit:10000
     }
   },
   bindtapItemHandler(ev){
@@ -43,6 +46,48 @@ Page({
           })
         }
       }
+    })
+  },
+  deleteHandler:function(ev){
+    console.log(ev);
+    var that = this;
+    let voteId = ev.currentTarget.dataset.id;
+    wx.showModal({
+      cancelColor: 'cancelColor',
+      title:'删除',
+      content:'确定删除此投票?',
+      success(res){
+        if(res.confirm){
+          wx.showLoading({
+            title: '删除ing...',
+          })
+          wx.request({
+            url: app.globalData.api+'vote/'+voteId,
+            method:'DELETE',
+            header:{
+              'cookie':wx.getStorageSync('sessionid')
+            },
+            success(res){
+              if(res.data.success == true){
+              
+                var list = deepClone(that.data.userPublished.data)
+                list.splice(ev.currentTarget.dataset.vid,1);
+                console.log(list);
+                that.setData({
+                  "userPublished.data":list
+                })
+                wx.hideLoading();
+              }
+            }
+          })
+        }
+      }
+    })
+  },
+  swiperChangeHandler:function(ev){
+    console.log(ev)
+    this.setData({
+      current:ev.detail.current
     })
   },
   currTo0:function(){
@@ -69,7 +114,7 @@ Page({
     //异步获取两个列表
     var that = this;
     wx.request({
-      url: 'http://localhost:3000/user/published?page='+that.data.userPublished.page+"&limit="+that.data.userPublished.limit,
+      url: app.globalData.api+'user/published?page='+that.data.userPublished.page+"&limit="+that.data.userPublished.limit,
       method:'GET',
       header:{
         'cookie':wx.getStorageSync('sessionid')
@@ -77,6 +122,7 @@ Page({
       success(res){
         if(res.data.success == false){
           console.log("请求失败")
+          console.log(res)
         }else{
           console.log("usr Published:",res)
           that.setData({
@@ -96,7 +142,7 @@ Page({
       //需要同步数据，同时计算swiperheight高度
     })
     wx.request({
-      url: 'http://localhost:3000/user/voted?page='+that.data.userVoted.page+"&limit="+that.data.userVoted.limit,
+      url: app.globalData.api+'user/voted?page='+that.data.userVoted.page+"&limit="+that.data.userVoted.limit,
       header:{
         'cookie':wx.getStorageSync('sessionid')
       },

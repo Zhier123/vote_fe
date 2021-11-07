@@ -1,5 +1,7 @@
 {
   "usingComponents": {
     "question":"../../components/question/question"
-  }
+  },
+  "navigationBarTitleText": "创建投票"
+
 }

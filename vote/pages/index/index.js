@@ -29,10 +29,11 @@ Page({
     })
   },
   onLoad() {
-    console.log(app)
-    if(app.globalData.userInfo == null){
+    
+    if(app.globalData.userId == null){
       app.userLogin()
       }    
+      console.log(app)
     if (wx.getUserProfile) {
       this.setData({
         canIUseGetUserProfile: true

@@ -1,5 +1,16 @@
 <view class="con">
-    <swiper current="{{swiperPage}}">
+  <modal title='请保存该二维码' hidden="{{modalHidden}}" bindcancel='modalCancel' 
+  class="modal"
+  bindconfirm='modalConfirm'>
+    <image
+    mode="aspectFill"
+    class="QRCODE"
+    show-menu-by-longpress="true" 
+    src="{{imgUrl || '../../testResource/1635284678296.jpeg'}}"
+
+    ></image>
+  </modal>
+    <swiper style="height:{{swiperHeight}}rpx" current="{{swiperPage}}">
     <swiper-item catchtouchmove="stopTouchMove">
     <view class="head">
     <!--投票标题  截止日期 还有一些其他东-->
@@ -17,12 +28,12 @@
       bindchange="bindPickerChange_time">{{ddltime}}</picker>
       </view>
     </view>
-    <view wx:if="{{resultVisibility == 'afterVote'}}" class="switch interactableArea">
-      <text>匿名投票</text>
+    <!-- <view wx:if="{{resultVisibility == 'afterVote'}}" class="switch interactableArea">
+      <text>匿名计票</text>
       <switch color="rgb(62, 122, 199)" bindchange="anonymousHandler"></switch>
-    </view>
+    </view> -->
     <view class="switch interactableArea">
-      <text>结果公开</text>
+      <text>结果公开(仅结果票数)</text>
       <switch color="rgb(62, 122, 199)"  bindchange="resultHandler_outer" ></switch>
     </view>
 
@@ -41,7 +52,9 @@
       <question 
       bind:getQuestionInfo="questionInfoHandler" 
       bind:nextQuestion="nextQuestionHandler"
+      bind:preQuestion="preQuestionHandler"
       qid="{{idx}}"
+      questionNum="{{questionList.length}}"
       bind:submit="submitHandler"
       ></question>
     </view> 
