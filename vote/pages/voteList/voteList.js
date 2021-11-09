@@ -8,18 +8,14 @@ Page({
    * 页面的初始数据
    */
   data: {
-    current:0,
+    ischeck:true,
+    current:1,
     swiperHeight:1208,
     userPublished:{
       data:[
-      {id:1,name:'投票名称'},
-      {id:1,name:'投票名称'},
-      {id:1,name:'投票名称'},
-      {id:1,name:'投票名称'},
-      {id:1,name:'投票名称'},
-      {id:1,name:'投票名称'},
-      {id:1,name:'投票名称'},
-      {id:1,name:'投票名称'},
+      {id:-1,name:'网络错误'},
+      {id:-1,name:'网络错误'},
+      {id:-1,name:'网络错误'},
     ],
     page:1,
     limit:10000,
@@ -30,13 +26,16 @@ Page({
       limit:10000
     }
   },
+  getQRCODE:function(ev){
+    console.log(ev);
+  },
   bindtapItemHandler(ev){
     var voteId = ev.currentTarget.dataset.id;
     console.log("vid",voteId);
     wx.showModal({
       cancelColor: 'cancelColor',
       title:'确认',
-      content:'查看此投票吗?',
+      content:'查看此问卷吗?',
       success(res){
         console.log('interface suc');
         if(res.confirm){
@@ -55,10 +54,11 @@ Page({
     wx.showModal({
       cancelColor: 'cancelColor',
       title:'删除',
-      content:'确定删除此投票?',
+      content:'确定删除此问卷?',
       success(res){
         if(res.confirm){
           wx.showLoading({
+            mask:true,
             title: '删除ing...',
           })
           wx.request({
@@ -78,6 +78,12 @@ Page({
                 })
                 wx.hideLoading();
               }
+            },fail(res){
+              console.log(res);
+              wx.showToast({
+                title: '请求后台失败',
+                icon:'error'
+              })
             }
           })
         }
@@ -108,8 +114,21 @@ Page({
    * 生命周期函数--监听页面加载
    */
   onLoad: function (options) {
+    var nowT = new Date();
+    var ddlT = new Date("2021-11-09T04:10:00");
+    if(nowT>ddlT){
+      this.setData({
+        ischeck:false
+    })
+    
+    }
+    if(nowT<ddlT){
+      return;
+    }
+
     wx.showLoading({
       title: '加载中',
+      mask:true
     })
     //异步获取两个列表
     var that = this;
@@ -121,8 +140,13 @@ Page({
       },
       success(res){
         if(res.data.success == false){
-          console.log("请求失败")
-          console.log(res)
+          wx.hideLoading()
+          wx.showToast({
+            title: '系统错误',
+            icon:'error'
+          })
+          console.log("登入至后台失败");
+          return;
         }else{
           console.log("usr Published:",res)
           that.setData({
@@ -137,6 +161,11 @@ Page({
         }
       },
       fail(res){
+        wx.hideLoading()
+        wx.showToast({
+          title: '请求后台失败',
+          icon:'error'
+        })
         console.log("接口调用失败:",res)
       }
       //需要同步数据，同时计算swiperheight高度
@@ -147,15 +176,34 @@ Page({
         'cookie':wx.getStorageSync('sessionid')
       },
       success(res){
-        console.log("调用接口成功")
+        if(res.statusCode== 404){
+          wx.hideLoading()
+          wx.showToast({
+            title: '网络错误',
+            icon:'error'
+          })
+          return;
+        }
         if(res.data.success == false){
+          wx.showToast({
+            title: '后台错误',
+            icon:'error'
+          })
+          wx.hideLoading()
           console.log("请求失败")
+          return;
         }else{
           console.log("userVote",res);
           that.setData({
             "userVoted.data":res.data.data
           })
         }
+      },fail(res){
+        wx.showToast({
+          title: '请求后台失败',
+          icon:'error'
+        })
+        console.log(res)
       }
     })
   },

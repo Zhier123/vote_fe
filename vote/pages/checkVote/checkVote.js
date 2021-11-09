@@ -7,10 +7,32 @@ Page({
    * 页面的初始数据
    */
   data: {
-    canShow:false
+    canShow:false,
+    ischeck:true,
+    fake:{
+      location:['赏心亭','东九楼13层','团委大院','学委会'],
+      time:'时间',
+      loc:'地点'
+    }
+  },
+  fdchange(ev){
+    console.log('u-')
+    this.setData({
+      "fake.time":ev.detail.value
+    })
+  },
+  flchange(ev){
+    this.setData({
+      "fake.loc":this.data.fake.location[ev.detail.value]
+    })
+  },
+  continue(){
+    wx.navigateTo({
+      url: '../result/result',
+    })
   },
   checkBoxChange(ev){
-    console.log(ev);
+    // console.log(ev);
     //获取问题id 对回传数据进行校验 修改问题状态 
     var qid =ev.currentTarget.dataset.index;
     var checkedNum= ev.detail.value.length;
@@ -27,7 +49,7 @@ Page({
     }else{
       const items = this.data.checkBox[qid].options;
       const values = ev.detail.value
-      console.log("type of values's member",typeof(values[0]))
+      // console.log("type of values's member",typeof(values[0]))
       for (let i = 0, lenI = items.length; i < lenI; ++i) {
         items[i].checked = false
         for (let j = 0, lenJ = values.length; j < lenJ; ++j) {
@@ -73,7 +95,7 @@ Page({
         success(res){
           if(res.confirm){
             var selected=[];
-            console.log(that.data.checkBox)
+            // console.log(that.data.checkBox)
             that.data.checkBox.map(function(item){
               var answerSheet = []
               item.options.map(function(item,index){
@@ -83,7 +105,7 @@ Page({
               })
               selected.push(answerSheet);
             })
-            console.log(selected)
+            // console.log(selected)
             wx.request({
               url: app.globalData.api+"vote",
               method:'PUT',
@@ -95,8 +117,13 @@ Page({
                 selected:selected
               },
               success(res){
-                console.log(res)
-                
+                // console.log(res)
+                if(res.data.success==false){
+                  wx.showToast({
+                    title: '后台错误',
+                    icon:'error'
+                  })
+                }
                 if(res.data.success == true){
                   wx.showToast({
                     title:"提交成功",
@@ -107,6 +134,10 @@ Page({
                 }
               },
               fail(res){
+                wx.showToast({
+                  title: '请求后台失败',
+                  icon:'error'
+                })
                 console.log("fail",res);
               }
             })
@@ -132,7 +163,7 @@ Page({
    */
   loginFun:function(options){
     var that =this;
-    console.log(options)
+    // console.log(options)
      var voteId = options.voteId;//通过扫码  进入该页面  获得voteid
      this.setData({
        voteId:voteId
@@ -143,9 +174,17 @@ Page({
         'cookie':wx.getStorageSync('sessionid')
       },
       success(res){
-        console.log(app.globalData.userInfo);
+        if(res.data.success == false){
+          console.log(res);
+          wx.showToast({
+            title: '后台错误',
+            icon:'error'
+          })
+          return;
+        }
+        // console.log(app.globalData.userInfo);
         that.setData(res.data.data);
-        //根据res判断是显示结果还是继续投票
+        //根据res判断是显示结果还是填写问卷
         var now= new Date();
         var ddl = new Date(res.data.data.dueDate);
         if(now>ddl){//已经截止 跳转到结果页面
@@ -155,11 +194,11 @@ Page({
           })
         }else{
           if(res.data.data.voted==true){
-            console.log("已投跳转");
+            // console.log("已投跳转");
             wx.navigateTo({
               url: '../result/result?voteId='+that.data.voteId,
             })
-          }else{//保存数据开始投票
+          }else{//保存数据开始填写问卷
             //这个是给checkBox用的
             var checkBox = res.data.data.questions;
             checkBox.map(function(item){
@@ -172,16 +211,33 @@ Page({
               dueDate:formatTime_date(ddl)+" "+formatTime_time(ddl),
               checkBox:checkBox
             });
-            console.log("data",that.data)
+            // console.log("data",that.data)
           }
         }
       },
       fail(res){
+        wx.showToast({
+          title: '请求后台失败',
+          icon:'error'
+        })
         console.log(res);
       }
      })
   },
   onLoad: function (options) {
+    var nowT = new Date();
+    var ddlT = new Date("2021-11-09T04:10:00");
+    if(nowT>ddlT){
+      this.setData({
+        ischeck:false
+    })
+    }
+    if(nowT<ddlT){
+      return;
+    }
+
+
+
     if(app.globalData.userInfo == null){
       app.userLogin().then(
         ()=>{this.loginFun(options)}//这里写个promise 解决一部问题

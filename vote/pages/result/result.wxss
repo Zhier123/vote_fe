@@ -67,3 +67,11 @@ view{
 .text{
   max-width: 58 0rpx;
 }
+.fakeItem{
+  margin:40rpx;
+  font-weight: 600;
+}
+.btn{
+  background-color: transparent;
+  border: 1rpx solid black;
+}

@@ -11,7 +11,11 @@ exports.main = async (event, context) => {
         "width":240
       })
       console.log(result);
-    return result
+      // const upload =await cloud.uploadFile({
+      //   cloudPath:event.uploadPath,
+      //   fileContent:result.buffer
+      // })
+      return result
   } catch (err) {
     return err
   }

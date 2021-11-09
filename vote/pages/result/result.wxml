@@ -1,4 +1,16 @@
-<view class="container">
+<view wx:if="{{ischeck==true}}" class="container">
+  <view style="display:flex;items-align:center;height:100rpx;font-size:large;"><icon type="search"></icon><text>在加入之前，你应该体现熟悉以下知识</text></view>
+  <view style="display:flex;flex-direction:column;align-items:center;justify-content">
+    <view class="fakeItem">HTML</view>
+  <view class="fakeItem">Javascript</view>
+  <view class="fakeItem">CSS</view>
+  <view class="fakeItem">三剑客 </view>
+  <view class="fakeItem">这些最基础的知识会在接下来的学习中起到相当重要的作用</view>
+  </view>
+  <button class="btn" bindtap="continue">NEXT</button>
+</view>
+
+<view wx:else class="container">
   <view class="head">
     <view class="voteTitle">{{name}}</view>
     <view class="dueDate">截止时间: {{dueDate}}</view>

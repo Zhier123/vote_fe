@@ -31,6 +31,11 @@
   margin-bottom:40rpx ;
   
 }
+.icon-erweima-copy{
+  font-size: 220rpx;
+  color:rgba(23, 162, 204, 0.555);
+  margin: 40rpx 0;
+}
 .icon-baobiaotongji{
   font-size: 250rpx;
   color:rgba(23, 162, 204, 0.555);
@@ -47,4 +52,17 @@ button{
 text{
   color: rgba(90, 88, 88, 0.438);
   font-size: smaller;
+}
+.fakeInput{
+  margin: 40rpx 0;
+  font-size: medium;
+  font-weight: 600;
+}
+.fakeInput input{
+  border: 1rpx solid black;
+  padding: 10rpx;
+}
+.fakeButton{
+  background-color: transparent;
+  border: 1rpx solid black;
 }

@@ -2,6 +2,6 @@
   "usingComponents": {
     "question":"../../components/question/question"
   },
-  "navigationBarTitleText": "创建投票"
+  "navigationBarTitleText": "创建问卷"
 
 }

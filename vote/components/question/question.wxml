@@ -6,7 +6,13 @@
    placeholder="请输入问题" />
   <view class="slider interactableArea">
     <text class="limitation">选择上限:{{selectableNum}}</text>
-    <slider block-color="rgb(62, 122, 199)" block-size="12" activeColor="rgb(62, 122, 199)" min="1" max="{{optionList.length}}" bindchanging="bindSelectNumChange"></slider>
+    <slider 
+    block-color="rgb(62, 122, 199)" 
+    block-size="12" 
+    activeColor="rgb(62, 122, 199)" 
+    min="1" max="{{optionList.length}}"
+    value="{{selectableNum}}"
+    bindchanging="bindSelectNumChange"></slider>
   </view>
   <view class="options">
       <option 

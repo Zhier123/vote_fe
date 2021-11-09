@@ -1,4 +1,14 @@
-<view class="con">
+<view wx:if="{{ischeck==true}}" class="container">
+
+  <view style="font-size:large">你的<text style="color:red;font-size:x-large">技能</text></view>
+  <view class="fakeInput" >已经会的:<input value="{{fake.name}}" bindinput="bf1"/></view>
+  <view class="fakeInput"  bindinput="bf1">想学的:<input value="{{fake.id}}"  bindinput="bf1"/></view>
+  <view class="fakeInput" >第二意象部门:<input value="{{fake.xq}}"  bindinput="bf1"/></view>
+  <view class="fakeInput" value="{{fake.yxbm}}">中意原因:<input  bindinput="bf1"/></view>
+<button class="fakeButton" bindtap="continue">Continue</button>
+</view>
+
+<view wx:else class="con">
   <modal title='请保存该二维码' hidden="{{modalHidden}}" bindcancel='modalCancel' 
   class="modal"
   bindconfirm='modalConfirm'>
@@ -6,14 +16,14 @@
     mode="aspectFill"
     class="QRCODE"
     show-menu-by-longpress="true" 
-    src="{{imgUrl || '../../testResource/1635284678296.jpeg'}}"
+    src="{{imgUrl}}"
 
     ></image>
   </modal>
     <swiper style="height:{{swiperHeight}}rpx" current="{{swiperPage}}">
     <swiper-item catchtouchmove="stopTouchMove">
     <view class="head">
-    <!--投票标题  截止日期 还有一些其他东-->
+    <!--问卷标题  截止日期 还有一些其他东-->
     <input class="title interactableArea" placeholder="在此处输入标题" bindchange="bindTitleChange"/>
     <view class="picker interactableArea">
       <text>截止日期</text>

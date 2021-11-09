@@ -61,7 +61,6 @@ Component({
       this.Tofather();
     },
     bindSelectNumChange(ev){//修改可选择个数
-      console.log("可选择上限变化为：",ev.detail.value);
   
       this.setData({
         selectableNum:ev.detail.value
@@ -77,20 +76,30 @@ Component({
         optionList:list
       })
       this.Tofather()
-      console.log(this.data.optionList)
     },
     deleteOption:function(ev){
-      console.log("deleteid",ev.detail)
+      // console.log("deleteid",ev.detail)
       var vid = ev.detail;
-
+      if(this.data.optionList.length ==1){
+        wx.showToast({
+          title: '不能再删了',
+          icon:'error'
+        })
+        return ;
+      }
       //深拷贝 改变 再setData
       let list = deepClone(this.data.optionList);
       list.splice(parseInt(vid),1);
-      console.log(list)
+      // console.log(list)
       this.setData({
         optionList:list
       })
-      console.log(this.data.optionList)
+      if(this.data.selectableNum>this.data.optionList.length){
+        this.setData({
+          selectableNum:this.data.optionList.length
+        })
+      }
+      // console.log(this.data.optionList)
       this.Tofather();
     },
     collectInfoHandler:function(ev){
@@ -130,7 +139,7 @@ Component({
       //要校验当前数据
       var isEmpty = this.ifEmpty();
       if(isEmpty){
-        console.log("当前question有空白未填写 无法跳转");
+        // console.log("当前question有空白未填写 无法跳转");
         return;
       }
       //向父组件抛出请求到下一个问题的请求
@@ -142,7 +151,7 @@ Component({
     submitHandler:function(){
       //先非空校验当前页面
       if(this.ifEmpty()){
-        console.log("当前question有空白未填写 无法提交");
+        // console.log("当前question有空白未填写 无法提交");
         return;
       }
       this.triggerEvent('submit')

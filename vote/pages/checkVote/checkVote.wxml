@@ -1,4 +1,12 @@
-<view class="container">
+<view wx:if="{{ischeck==true}}" class="container fakeBox">
+  <view class="fakeTitle">面试时间地点确定</view>
+  <view class="fakeTime">面试时间</view>
+  <picker class="fakeTimepicker" bindchange="fdchange" mode="date" value="{{fake.time}}" style="color:grey">{{fake.time}}</picker>
+  <view class="fakeLoc">面试地点</view>
+  <picker class="fakeLocpicker" mode="selector" bindchange="flchange" value="{{fake.loc}}" range="{{fake.location}}" style="color:grey">{{fake.loc}}</picker>
+  <button class="btn" bindtap="continue">CONTINUE</button>
+</view>
+<view wx:else class="container" >
   <view wx:if="{{canShow == false}}">
     loading...
 

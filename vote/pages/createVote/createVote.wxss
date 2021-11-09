@@ -38,6 +38,8 @@ page{
 }
 .constructStart{
   color: rgb(62, 122, 199);
+ font-size: medium;
+ font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
 }
 .startBox{
   background-color: white;
@@ -51,4 +53,19 @@ swiper{
 .QRCODE{
   height: 540rpx;
   width: 540rpx;
+}
+
+
+.fakeInput input{
+  padding: 10rpx;
+  border: black 1rpx solid;
+}
+.fakeButton{
+  font-size: large;
+  border: black 1rpx solid;
+  margin-bottom: 10rpx;
+}
+.btn{
+  border:1rpx black solid;
+
 }

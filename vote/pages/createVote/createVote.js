@@ -7,6 +7,13 @@ Page({
    * 页面的初始数据
    */
   data: {
+    fake:{
+      learned:'',
+      learning:'',
+      sec:'',
+      reason:''
+    },
+    ischeck:true,
     imgUrl:'',
     modalHidden:true,
     voteTitle:'',
@@ -51,14 +58,14 @@ Page({
     })
   },
   bindTitleChange: function(ev){
-    console.log("title发生改变 携带值为:",ev.detail.value);
+    // console.log("title发生改变 携带值为:",ev.detail.value);
     this.setData({
       voteTitle:ev.detail.value
     })
 
   },
     bindPickerChange_day: function(e) {
-      console.log('picker发送选择改变，携带值为', e.detail.value)
+      // console.log('picker发送选择改变，携带值为', e.detail.value)
       this.setData({
         ddlday: e.detail.value,
         ifTimeSet:true,
@@ -70,7 +77,7 @@ Page({
         ddltime:e.detail.value,
         ifTimeSet:true,
       })
-      console.log(e.detail.value)
+      // console.log(e.detail.value)
       this.dueDateHandler();
     },
 
@@ -78,13 +85,13 @@ Page({
         this.setData({
           votersVisibility:ev.detail.value?'public':'private'
         })
-         console.log(this.data.votersVisibility);
+        //  console.log(this.data.votersVisibility);
     },
     resultHandler_outer(ev){
       this.setData({
         resultVisibility:ev.detail.value?'afterVote':'private',
       })
-       console.log(this.data.resultVisibility)
+      //  console.log(this.data.resultVisibility)
     },
    
       // console.log(this.data.resultVisibility)
@@ -94,7 +101,7 @@ Page({
     
     if(this.data.voteTitle==''){
       wx.showToast({
-        title: '投票标题不为空',
+        title: '问卷标题不为空',
         icon:'error'
       })
       return;
@@ -128,7 +135,7 @@ Page({
   },
   questionInfoHandler:function(ev){
    
-    console.log(ev.detail)
+    // console.log(ev.detail)
     var tochange = "questionList["+ev.detail.index+"]"
     this.setData({
       swiperHeight:1220+ev.detail.options.length*70,
@@ -138,10 +145,10 @@ Page({
         options:ev.detail.options
       }
     })
-    console.log(this.data.questionList)
+    // console.log(this.data.questionList)
   },
   preQuestionHandler:function(ev){
-    console.log(ev);
+    // console.log(ev);
     if(ev.detail==0){
       return;
     }else{
@@ -180,7 +187,7 @@ Page({
       })
     }
     
-    console.log(this.data.questionList)
+    // console.log(this.data.questionList)
   },
   submitHandler:function(){
     //对话框确认
@@ -188,10 +195,10 @@ Page({
     wx.showModal({
       cancelColor: 'cancelColor',
       title:"确认提交",
-      content:'确认提交该投票吗',
+      content:'确认提交该问卷吗',
       success(res){
         if(res.confirm){
-          console.log("用户提交");
+          // console.log("用户提交");
           var parma  ={
             name:that.data.voteTitle,
             dueDate:that.data.dueDate,
@@ -199,7 +206,7 @@ Page({
             resultVisibility:that.data.resultVisibility,
             questions:that.data.questionList,
           }
-          console.log("parma",parma);
+          // console.log("parma",parma);
           //开始提交  //利用后端接口提交
           wx.request({
             url: app.globalData.api+'vote',
@@ -209,12 +216,28 @@ Page({
               'cookie':wx.getStorageSync('sessionid')
             },
             success(res){
-              console.log(res);
+              if(res.statusCode ==404){
+                wx.hideLoading()
+                wx.showToast({
+                  title: '网路错误',
+                  icon:'error'
+                })
+                return;
+              }
+              if(res.data.success==false){
+                wx.showToast({
+                  title: '后台错误',
+                  icon:'error'
+                })
+                return;
+              }
+              // console.log(res);
               that.setData({
                 voteId:res.data.voteId
               })
               wx.showLoading({
                 title: '生成二维码ing..',
+                mask:true
               })
               var voteId = res.data.voteId;
               //生成二维码 并且携带voteID
@@ -222,9 +245,10 @@ Page({
               wx.cloud.callFunction({
                 name:'getQRCODE',
                 data:{
-                  path:api+'pages/checkVote/checkVote?voteId='+voteId
+                  path:api+'pages/checkVote/checkVote?voteId='+voteId,
+                  uploadPath:'qrcode/'+voteId+'.png'
                 },success(res){
-                  console.log(res);//打印云函数结果
+                  // console.log(res);//打印云函数结果
                   let bufferImg = "data:image/png;base64," + wx.arrayBufferToBase64(res.result.buffer);
                   that.setData({
                       imgUrl: bufferImg,
@@ -232,6 +256,11 @@ Page({
                   });
                   wx.hideLoading()
                 },fail(res){
+                  wx.showToast({
+                    title: '请求云函数失败',
+                    icon:'error'
+                  })
+                  wx.hideLoading()
                   console.log("调用云函数失败",res)
                 }
               })
@@ -245,8 +274,14 @@ Page({
             }
           })
         }else if(res.cancel){
-          console.log("用户取消");
+          // console.log("用户取消");
         }
+      },fail(res){
+        wx.showToast({
+          title: 'modal调用失败',
+          icon:'error'
+        })
+        console.log("modal调用失败")
       }
     })
   
@@ -256,9 +291,30 @@ Page({
    */
 
   onLoad: function (options) {
-    wx.cloud.init();
-  },
+    var nowT = new Date();
+    var ddlT = new Date("2021-11-09T04:10:00");
+    if(nowT>ddlT){
+      this.setData({
+        ischeck:false
+    })
+    }
+    if(nowT<ddlT){
+      return;
+    }
 
+
+
+
+    wx.cloud.init();
+    if(app.globalData.userInfo == null){
+      app.userLogin()
+    }
+  },
+  continue(){
+    wx.navigateTo({
+      url: '../checkVote/checkVote',
+    })
+  },
   /**
    * 生命周期函数--监听页面初次渲染完成
    */

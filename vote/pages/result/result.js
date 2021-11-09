@@ -7,13 +7,14 @@ Page({
    * 页面的初始数据
    */
   data: {
+    ischeck:true
   },
   /**
    * 生命周期函数--监听页面加载
    */
   bindOptionTapHandler:function(ev){
     if(this.data.votersVisibility == 'private'){
-      console.log("匿名投票不予显示");
+      console.log("匿名不予显示");
       return;
     }else{
       var oid = ev.currentTarget.dataset.option;
@@ -30,7 +31,26 @@ Page({
    
     
   },
+  continue(){
+    wx.navigateTo({
+      url: '../voteList/voteList',
+    })
+  },
   onLoad: function (options) {
+
+    var nowT = new Date();
+    var ddlT = new Date("2021-11-09T04:10:00");
+    if(nowT>ddlT){
+      this.setData({
+        ischeck:false
+    })
+    }
+    if(nowT<ddlT){
+      return;
+    }
+
+
+
     var that= this;
     console.log(options);
     that.setData({
@@ -43,11 +63,18 @@ Page({
         'cookie':wx.getStorageSync('sessionid')
       },
       success(res){
+        if(res.data.success==false){
+          wx.showToast({
+            title: '后台错误',
+            icon:'error'
+          })
+          return;
+        }
         var now =new Date();
           var ddl =new Date(res.data.data.dueDate);
           var isCreator = (app.globalData.userId == res.data.data.creatorUUID)
         if(res.data.data.voted == false && (res.data.data.creatorUUID != app.globalData.userId &&(now<ddl))){
-          console.log("还未投票 还未截至 不是投票创造者 不可查看结果");
+          console.log("还未填写问卷 还未截至 不可查看结果");
           wx.navigateTo({
             url: '../checkVote/checkVote?voteId='+that.data.voteId,
           })
@@ -57,7 +84,7 @@ Page({
           console.log(isCreator);
           var overTime =false;
           if(now>ddl){
-            overTime =true// 判定投票是否过期
+            overTime =true// 判定问卷是否过期
           }
           that.setData(res.data.data)
           that.setData({
@@ -84,6 +111,12 @@ Page({
             title: '系统出错',
           })
         }
+      },fail(res){
+        console.log(res);
+        wx.showToast({
+          title: '请求后台失败',
+          icon:'error'
+        })
       }
     })
   },

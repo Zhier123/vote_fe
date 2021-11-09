@@ -52,7 +52,7 @@ swiper{
   height: 720rpx;
   line-height: 720rpx;
 }
-.icon-ashbin{
+.iconfont{
   color:rgb(97, 87, 87);
   font-size: large;
   height: 100rpx;
@@ -63,4 +63,21 @@ swiper{
   box-shadow: grey 1rpx 0 0 0;
   line-height: 100rpx;
   z-index: 100;
+  margin-left: 30rpx;
+}
+.iconBox{
+  display: flex;
+  justify-content: space-between;
+  text-align: center;
+}
+.fakeBox{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+  font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+  margin: 40rpx 20rpx 40rpx 20rpx;
+}
+.btn{
+  border: 1rpx solid black;
 }
